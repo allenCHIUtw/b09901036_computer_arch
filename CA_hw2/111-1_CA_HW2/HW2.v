@@ -40,19 +40,53 @@ module ALU(
     // Todo 1: Next-state logic of state machine
     always @(*) begin
         case(state)
-            IDLE: begin
-
-            end
-            MUL :
-            DIV :
-            SHIFT :
-            AVG : 
+            IDLE:
+            begin  
+                if(valid=0)
+                begin state_nxt = IDLE; end
+                else 
+                begin 
+                case(mode)
+                   2'b00: begin state_nxt = MUL; end
+                   2'b01: begin state_nxt = DIV; end
+                   2'b10: begin state_nxt = SHIFT; end
+                   2'b11: begin state_nxt = AVG; end
+                endcase
+            
+              state_nxt=MUL;
+             end
+             MUL :
+             begin  
+              if(counter!=5'b11111)
+              begin 
+                counter_nxt=counter+1;
+                state_nxt = MUL;
+              end
+              else
+               begin
+                   state_nxt =OUT;
+               end
+             end
+             end
+             DIV :
+             begin  
+               
+             end
+             SHIFT :
+             begin  
+              
+             end
+             AVG : 
+             begin  
+              
+             end
             OUT : state_nxt = IDLE;
-            default :
+            default : state_nxt = IDLE;
+            end
         endcase
     end
     // Todo 2: Counter
-    
+    always @(*)
     // ALU input
     always @(*) begin
         case(state)
@@ -66,7 +100,10 @@ module ALU(
     end
 
     // Todo 3: ALU output
-    
+    always @(*) begin
+       case(state)
+       endcase
+    end
     // Todo 4: Shift register
 
     // Todo: Sequential always block
